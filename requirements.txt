@@ -4,4 +4,4 @@ mysqlclient==2.2.0
 whitenoise==6.5.0
 requests==2.31.0
 pytz==2025.2
-sqlparse==1.0.5
+sqlparse==0.5.5
