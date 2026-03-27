@@ -1,0 +1,7 @@
+Django==5.0.3
+gunicorn==21.2.0
+mysqlclient==2.2.0
+whitenoise==6.5.0
+requests==2.31.0
+pytz==2025.7
+sqlparse==1.0.5
