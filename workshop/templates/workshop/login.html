@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, height=device-height">
+    <title>éclat · worker login</title>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@0,400..700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: "Quicksand", sans-serif;
+            background-color: #fff9fc;
+            color: #4a3b4f;
+        }
+        
+        .split-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        /* LEFT SIDE - LOGO WITH FLOATING FLOWER */
+        .left-side {
+            flex: 1;
+            background: linear-gradient(135deg, #fad4e6, #d9b0d1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Floating Flower Animation */
+        .floating-flower {
+            position: absolute;
+            font-size: 4rem;
+            color: rgba(72, 13, 249, 0.3);
+            z-index: 1;
+            animation: floatAround 15s infinite ease-in-out;
+        }
+        
+        .floating-flower-2 {
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(241, 8, 198, 0.19);
+            z-index: 1;
+            animation: floatAround2 18s infinite ease-in-out;
+        }
+        
+        .floating-flower-3 {
+            position: absolute;
+            font-size: 5rem;
+            color: rgba(8, 0, 0, 0.15);
+            z-index: 1;
+            animation: floatAround3 20s infinite ease-in-out;
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 150px) rotate(180deg); }
+            75% { transform: translate(-50px, 100px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @keyframes floatAround2 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-80px, 120px) rotate(120deg); }
+            66% { transform: translate(120px, 60px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @keyframes floatAround3 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(150px, -80px) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        
+        .left-side::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translate(-10%, -10%) scale(1); }
+            50% { transform: translate(-5%, -5%) scale(1.1); }
+        }
+        
+        .logo-container {
+            text-align: center;
+            z-index: 10;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .main-logo {
+            font-family: "Playfair Display", serif;
+            font-size: 4.5rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 4px 4px 0 #c48ab8, 8px 8px 20px rgba(0,0,0,0.1);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .main-logo span {
+            font-size: 1.8rem;
+            display: block;
+            font-weight: 300;
+            letter-spacing: 4px;
+            color: #ffe4f0;
+            text-shadow: 2px 2px 0 #b380aa;
+        }
+        
+        .tagline {
+            color: white;
+            font-size: 1.1rem;
+            max-width: 280px;
+            margin: 1rem auto 0;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        /* RIGHT SIDE - LOGIN FORM (NO SCROLL) */
+        .right-side {
+            flex: 1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            height: 100vh;
+            overflow: hidden;
+            box-shadow: -5px 0 30px rgba(201, 139, 176, 0.1);
+        }
+        
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0.5rem 0;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 2.5rem;
+            color: #8b5f7c;
+            margin-bottom: 0.2rem;
+            line-height: 1.1;
+        }
+        
+        .form-header p {
+            color: #b68ba6;
+            font-size: 1rem;
+        }
+        
+        /* FORM ELEMENTS - COMPACT */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #8b5f7c;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-group label i {
+            color: #f9b8d4;
+            margin-right: 5px;
+            width: 16px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper input {
+            width: 100%;
+            background: #fff1f9;
+            border: 2px solid #ffe4f0;
+            border-radius: 40px;
+            padding: 0.8rem 1.3rem;
+            font-size: 0.95rem;
+            outline: none;
+            font-family: "Quicksand", sans-serif;
+            color: #4a3b4f;
+            transition: all 0.2s;
+        }
+        
+        .input-wrapper input:focus {
+            border-color: #f9b8d4;
+            box-shadow: 0 0 0 3px rgba(249, 184, 212, 0.2);
+            background: white;
+        }
+        
+        .input-wrapper input::placeholder {
+            color: #d9b0d1;
+            font-size: 0.85rem;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 1.3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d9b0d1;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .toggle-password:hover {
+            color: #f9b8d4;
+        }
+        
+        /* BUTTON */
+        .btn-login {
+            width: 100%;
+            background: #d9b0d1;
+            border: none;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #d9b0d1;
+            box-shadow: 0 8px 15px rgba(201, 139, 176, 0.3);
+            margin-top: 0.5rem;
+        }
+        
+        .btn-login:hover {
+            background: #c48ab8;
+            border-color: #c48ab8;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(201, 139, 176, 0.4);
+        }
+        
+        /* LINKS */
+        .form-footer {
+            text-align: center;
+            margin-top: 1.2rem;
+        }
+        
+        .form-footer a {
+            color: #b380aa;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+        }
+        
+        .form-footer a:hover {
+            color: #f9b8d4;
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+            color: #d9b0d1;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px solid #ffe4f0;
+        }
+        
+        .divider span {
+            padding: 0 8px;
+            font-size: 0.85rem;
+        }
+        
+        /* ERROR MESSAGE */
+        .error-message {
+            background: #ffe4f0;
+            color: #c48ab8;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            border: 2px solid #f9b8d4;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .error-message i {
+            color: #f9b8d4;
+        }
+        
+        /* FORGOT PASSWORD LINK */
+        .forgot-link {
+            text-align: right;
+            margin-bottom: 0.8rem;
+        }
+        
+        .forgot-link a {
+            color: #b68ba6;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+        
+        .forgot-link a:hover {
+            color: #f9b8d4;
+            text-decoration: underline;
+        }
+        
+        /* RESPONSIVE */
+        @media screen and (max-width: 768px) {
+            .split-container {
+                flex-direction: column;
+            }
+            
+            .left-side {
+                height: 30vh;
+                min-height: 200px;
+            }
+            
+            .main-logo {
+                font-size: 3rem;
+            }
+            
+            .main-logo span {
+                font-size: 1.2rem;
+            }
+            
+            .right-side {
+                height: 70vh;
+                padding: 0.8rem;
+            }
+            
+            .form-header h2 {
+                font-size: 2rem;
+            }
+            
+            .floating-flower, .floating-flower-2, .floating-flower-3 {
+                font-size: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="split-container">
+        <!-- LEFT SIDE - LOGO WITH FLOATING FLOWERS -->
+        <div class="left-side">
+            <!-- Floating Flower Icons -->
+            <i class="fas fa-seedling floating-flower"></i>
+            <i class="fas fa-spa floating-flower-2"></i>
+            <i class="fas fa-leaf floating-flower-3"></i>
+            
+            <div class="logo-container">
+                <div class="main-logo">
+                    éclat
+                    <span>studio</span>
+                </div>
+                <div class="tagline">
+                    where beauty meets intention
+                </div>
+            </div>
+        </div>
+        
+        <!-- RIGHT SIDE - LOGIN FORM (NO SCROLL) -->
+        <div class="right-side">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>welcome back</h2>
+                    <p>sign in to access your dashboard</p>
+                </div>
+                
+                <!-- Error message (hidden by default) -->
+                <div class="error-message" style="display: none;" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText">Invalid username or password</span>
+                </div>
+                
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i>username or email</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="username" placeholder="enter your username or email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i>password</label>
+                        <div class="input-wrapper">
+                            <input type="password" name="password" id="password" placeholder="••••••••" required>
+                            <i class="fas fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="forgot-link">
+                        <a href="#">forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-login">sign in</button>
+                    
+                    <div class="divider">
+                        <span>new here?</span>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <a href="{% url 'register' %}">create an account</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword(fieldId, icon) {
+            const field = document.getElementById(fieldId);
+            
+            if (field.type === "password") {
+                field.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

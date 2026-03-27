@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>éclat · our services</title>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@0,400..700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #fff9fc;
+            font-family: "Quicksand", "Inter", sans-serif;
+            color: #4a3b4f;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #8b5f7c;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .text-center { text-align: center; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #ffe4f0;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d9b0d1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c48ab8;
+        }
+        
+        /* NAVIGATION - Enhanced */
+        .navbar {
+            padding: 1.4rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #c48ab8;
+            text-shadow: 2px 2px 0 #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo span {
+            font-weight: 300;
+            font-size: 1rem;
+            color: #f9b8d4;
+            margin-left: 6px;
+        }
+        
+        .menu-icon {
+            display: none;
+            font-size: 1.8rem;
+            color: #c48ab8;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-icon:hover {
+            transform: rotate(90deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #8b5f7c;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #f9b8d4;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #f9b8d4;
+        }
+        
+        /* PAGE HEADER - Enhanced */
+        .page-header {
+            background: linear-gradient(145deg, #ffe4f0, #fff9fc);
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header:before {
+            content: '✨';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .page-header:after {
+            content: '🌸';
+            position: absolute;
+            bottom: 20%;
+            right: 10%;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 6s infinite ease-in-out reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .page-header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: #b380aa;
+            animation: fadeInDown 1s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .page-header p {
+            color: #b68ba6;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        /* Category Filter - New */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: 2px solid #ffe4f0;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            color: #b380aa;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #f9b8d4;
+            border-color: #f9b8d4;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* SERVICES GRID - Enhanced */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 18px 25px -15px rgba(201, 139, 176, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid #ffe4f0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .service-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(249,184,212,0.1), rgba(217,176,209,0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        
+        .service-card:hover:before {
+            opacity: 1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 40px -12px #d9b0d1;
+            border-color: #f9b8d4;
+        }
+        
+        /* Service Images with Animations */
+        .service-img {
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(139, 95, 124, 0.3);
+            font-family: "Playfair Display", serif;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .service-img:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+            transition: all 0.4s ease;
+        }
+        
+        .service-card:hover .service-img:after {
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+        
+        .service-img span {
+            position: relative;
+            z-index: 1;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover .service-img span {
+            transform: translateY(0);
+        }
+        
+        /* Gradient backgrounds for services */
+        .img-hair { background: linear-gradient(135deg, #f9b8d4, #d9b0d1); }
+        .img-mani { background: linear-gradient(135deg, #eac4e5, #f9b8d4); }
+        .img-massage { background: linear-gradient(135deg, #d9b0d1, #fad4e6); }
+        .img-makeup { background: linear-gradient(135deg, #f9b8d4, #c48ab8); }
+        .img-scrub { background: linear-gradient(135deg, #eac4e5, #b380aa); }
+        .img-color { background: linear-gradient(135deg, #fad4e6, #d9b0d1); }
+        .img-blowdry { background: linear-gradient(135deg, #ffe4f0, #f9b8d4); }
+        .img-facial { background: linear-gradient(135deg, #eac4e5, #c48ab8); }
+        .img-waxing { background: linear-gradient(135deg, #fad4e6, #d9b0d1); }
+        .img-bridal { background: linear-gradient(135deg, #f9b8d4, #b380aa); }
+        .default-img { background: linear-gradient(135deg, #eac4e5, #c48ab8); }
+        
+        .service-content {
+            padding: 1.8rem 1.5rem 2rem;
+            background: white;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .service-content h3 {
+            font-size: 1.9rem;
+            margin-bottom: 0.5rem;
+            color: #8b5f7c;
+            text-transform: capitalize;
+            transition: color 0.3s ease;
+        }
+        
+        .service-card:hover .service-content h3 {
+            color: #c48ab8;
+        }
+        
+        .service-content p {
+            color: #a67c95;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .service-price {
+            font-size: 2rem;
+            font-family: "Playfair Display", serif;
+            color: #c48ab8;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        
+        .service-price small {
+            font-size: 1rem;
+            font-family: "Quicksand", sans-serif;
+            color: #b68ba6;
+        }
+        
+        .service-duration {
+            color: #b68ba6;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-duration i {
+            margin-right: 0.3rem;
+        }
+        
+        /* Popular Badge */
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* BUTTON - Enhanced */
+        .btn {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #f9b8d4;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #b380aa;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(249, 184, 212, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover:before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            background: #f9b8d4;
+            color: white;
+            border-color: #f9b8d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 184, 212, 0.4);
+        }
+        
+        /* Stats Section - New */
+        .stats-section {
+            background: linear-gradient(135deg, #ffe4f0, #fff9fc);
+            border-radius: 48px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #c48ab8;
+            font-family: "Playfair Display", serif;
+        }
+        
+        .stat-label {
+            color: #b68ba6;
+            margin-top: 0.5rem;
+        }
+        
+        /* Empty State - Enhanced */
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            background: white;
+            border-radius: 36px;
+            border: 2px solid #ffe4f0;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: #f9b8d4;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        
+        /* FOOTER - Enhanced */
+        .footer {
+            background: linear-gradient(135deg, #fad4e6 0%, #ffe4f0 100%);
+            color: #5d4b5a;
+            padding: 3rem 0 2rem;
+            border-radius: 48px 48px 0 0;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer:before {
+            content: '✧';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            font-size: 8rem;
+            opacity: 0.1;
+            animation: float 8s infinite;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-col {
+            flex: 1 1 200px;
+        }
+        
+        .footer-col h4 {
+            color: #8b5f7c;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #f9b8d4;
+        }
+        
+        .footer-col p {
+            color: #b380aa;
+            line-height: 1.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.3rem;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #b380aa;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px dashed #f9b8d4;
+            color: #8b5f7c;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #d9b0d1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(201,139,176,0.3);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        /* RESPONSIVE */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .nav-links.show { display: flex; }
+            .menu-icon { display: block; }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer-inner {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .category-filter {
+                gap: 0.5rem;
+            }
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container { width: 94%; }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-section {
+                padding: 2rem;
+            }
+            .service-price {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">éclat<span>studio</span></div>
+            <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
+            <div class="nav-links" id="navLinks">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'About' %}">About us</a>
+                <a href="{% url 'services' %}">Services</a>
+                <a href="{% url 'bookings' %}">Booking</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 data-aos="fade-down">our rituals</h1>
+            <p data-aos="fade-up" data-aos-delay="100">touch, care, glow — each service is a pause</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <!-- Category Filter - New Feature -->
+            <div class="category-filter" data-aos="fade-up">
+                <button class="filter-btn active" data-category="all">All Services</button>
+                <button class="filter-btn" data-category="hair">Hair Care</button>
+                <button class="filter-btn" data-category="nails">Nail Care</button>
+                <button class="filter-btn" data-category="spa">Spa & Massage</button>
+                <button class="filter-btn" data-category="makeup">Makeup</button>
+            </div>
+
+            {% if services %}
+            <div class="services-grid" id="servicesGrid">
+                {% for service in services %}
+                <div class="service-card" data-category="{% if 'hair' in service.name|lower %}hair{% elif 'nail' in service.name|lower or 'mani' in service.name|lower %}nails{% elif 'massage' in service.name|lower or 'scrub' in service.name|lower or 'facial' in service.name|lower %}spa{% elif 'makeup' in service.name|lower %}makeup{% else %}all{% endif %}" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|divisibleby:2|yesno:'100,200' }}">
+                    <div class="service-img {% cycle 'img-hair' 'img-mani' 'img-massage' 'img-makeup' 'img-scrub' 'img-color' 'img-blowdry' 'img-facial' 'img-waxing' 'img-bridal' %} default-img">
+                        <span>{{ service.name }}</span>
+                    </div>
+                    <div class="service-content">
+                        {% if forloop.counter <= 3 %}
+                        <div class="popular-badge">✨ Most Popular</div>
+                        {% endif %}
+                        <h3>{{ service.name }}</h3>
+                        <p>{{ service.description|truncatechars:100 }}</p>
+                        <div class="service-price">
+                            €{{ service.price }}
+                            <small>{% if service.duration_minutes < 60 %}/{{ service.duration_minutes }} min{% else %}/{{ service.duration_minutes|floatformat:0 }} min{% endif %}</small>
+                        </div>
+                        <div class="service-duration">
+                            <i class="far fa-clock"></i> {{ service.duration_minutes }} minutes
+                        </div>
+                        <a href="{% url 'bookings' %}?service={{ service.id }}" class="btn">book this service →</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state" data-aos="zoom-in">
+                <i class="fas fa-spa"></i>
+                <p>Our services are being updated. Please check back soon!</p>
+                <a href="{% url 'bookings' %}" class="btn" style="margin-top: 1.5rem;">Request a consultation</a>
+            </div>
+            {% endif %}
+
+            <!-- Stats Section - New -->
+            {% if services %}
+            <div class="stats-section" data-aos="fade-up" data-aos-delay="300">
+                <h3>Why women choose éclat</h3>
+                <div class="stats-grid">
+                    <div>
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">{{ services|length }}</div>
+                        <div class="stat-label">Signature Services</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Natural Products</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Expert Artists</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-col" data-aos="fade-up">
+                <h4>éclat atelier</h4>
+                <p>22 rue des Lilas, 75006 Paris<br>a hidden courtyard full of light</p>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h4>contact</h4>
+                <p>hello@eclat-studio.com<br>+33 1 43 76 89 42</p>
+                <p style="margin-top: 0.5rem;">tue – sat · 9am – 7pm</p>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h4>follow</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="container copy">
+            <p>© éclat salon workshop · crafted with love · all rights reserved</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('show');
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.querySelector('.back-to-top');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('show');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        // Back to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Category filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                
+                // Filter cards with animation
+                serviceCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    if (category === 'all' || cardCategory === category) {
+                        card.style.display = 'flex';
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Add click animation to service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't trigger if clicking the button
+                if (e.target.tagName !== 'A' && !e.target.closest('.btn')) {
+                    const serviceName = this.querySelector('h3').innerText;
+                    alert(`✨ ${serviceName}\n\nWould you like to book this service? Click "book this service" to schedule your appointment! 🌸`);
+                }
+            });
+        });
+        
+        // Parallax effect on header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.page-header');
+            if (header) {
+                const scrolled = window.pageYOffset;
+                header.style.backgroundPositionY = scrolled * 0.5 + 'px';
+            }
+        });
+        
+        // Animate numbers when they come into view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    numbers.forEach(num => {
+                        const finalNumber = num.innerText;
+                        num.style.animation = 'fadeInUp 0.6s ease';
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+        
+        // Add service URL parameter when clicking book button
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === "{% url 'bookings' %}?") {
+                    e.preventDefault();
+                    const serviceName = this.closest('.service-card')?.querySelector('h3')?.innerText;
+                    window.location.href = `{% url 'bookings' %}?service=${encodeURIComponent(serviceName)}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

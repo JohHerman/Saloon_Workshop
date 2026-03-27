@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard - éclat Salon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --rose:       #b07a6e;
+            --rose-light: #dfc8c2;
+            --rose-dark:  #7a4f45;
+            --cream:      #f7f2ee;
+            --white:      #ffffff;
+            --ink:        #2a201e;
+            --muted:      #8a716c;
+            --teal:       #2a9d8f;
+            --amber:      #e9a84c;
+            --card-shadow: 0 8px 32px rgba(42,32,30,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--cream);
+            font-family: "DM Sans", sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 72px;
+            height: 100vh;
+            background: var(--rose-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 0;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+        .sidebar .logo {
+            font-family: "Cormorant Garamond", serif;
+            color: white;
+            font-size: 1.6rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .sidebar a {
+            width: 46px; height: 46px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--rose-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .sidebar .logout {
+            margin-top: auto;
+            color: #f4a2a2;
+        }
+        .sidebar .logout:hover {
+            background: rgba(255,100,100,0.15);
+            color: #ff7b7b;
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .main {
+            margin-left: 72px;
+            padding: 2rem 2.5rem;
+            max-width: 1400px;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+        .topbar-left h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+        .topbar-left h1 span {
+            color: var(--rose);
+            font-style: italic;
+        }
+        .topbar-left p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Profile pill */
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem 0.5rem 0.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--rose-light);
+        }
+        .profile-avatar {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .profile-info .name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+        .profile-info .role-badge {
+            display: inline-block;
+            background: var(--rose-light);
+            color: var(--rose-dark);
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            text-transform: capitalize;
+            margin-top: 0.15rem;
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.4rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0e5e0;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 60px; height: 60px;
+            border-radius: 0 20px 0 60px;
+            opacity: 0.08;
+        }
+        .stat-card:nth-child(1)::before { background: var(--rose); }
+        .stat-card:nth-child(2)::before { background: var(--teal); }
+        .stat-card:nth-child(3)::before { background: var(--amber); }
+        .stat-card:nth-child(4)::before { background: var(--rose-dark); }
+
+        .stat-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.95rem;
+            margin-bottom: 0.9rem;
+        }
+        .stat-card:nth-child(1) .stat-icon { background: #fce8e4; color: var(--rose); }
+        .stat-card:nth-child(2) .stat-icon { background: #d4f0ec; color: var(--teal); }
+        .stat-card:nth-child(3) .stat-icon { background: #fdf0d8; color: var(--amber); }
+        .stat-card:nth-child(4) .stat-icon { background: #ecddd9; color: var(--rose-dark); }
+
+        .stat-number {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--ink);
+        }
+        .stat-label {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        /* ── USER INFO CARD ── */
+        .user-info-card {
+            background: linear-gradient(135deg, var(--rose-dark) 0%, #5c3630 100%);
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 12px 40px rgba(122,79,69,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .user-info-card::after {
+            content: 'éclat';
+            position: absolute;
+            right: 2rem; bottom: -1rem;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 6rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.06);
+            pointer-events: none;
+        }
+        .user-info-avatar {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .user-info-details h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .user-info-details .role-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 0.2rem 0.9rem;
+            font-size: 0.8rem;
+            text-transform: capitalize;
+            margin-top: 0.4rem;
+        }
+        .user-info-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .user-info-meta span {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.75);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .user-info-meta span i {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* ── GRID ── */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0e5e0;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1.4rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0e5e0;
+        }
+        .card-header h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .card-header small {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        /* ── BOOKING ITEMS ── */
+        .booking-item {
+            border-radius: 16px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 0.9rem;
+            border-left: 4px solid;
+            background: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.15s;
+        }
+        .booking-item:hover { transform: translateX(3px); }
+        .booking-item:last-child { margin-bottom: 0; }
+
+        .status-pending    { border-left-color: var(--amber); }
+        .status-confirmed  { border-left-color: var(--teal); }
+        .status-in_progress { border-left-color: var(--rose); }
+        .status-completed  { border-left-color: #a8bfb7; opacity: 0.75; }
+
+        .booking-details h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.3rem; }
+        .booking-meta {
+            display: flex; gap: 1rem; flex-wrap: wrap;
+            color: var(--muted); font-size: 0.82rem;
+        }
+        .booking-meta i { margin-right: 0.25rem; }
+
+        .booking-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            padding: 0.45rem 1rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: "DM Sans", sans-serif;
+            transition: opacity 0.15s, transform 0.15s;
+        }
+        .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-start    { background: var(--teal); color: white; }
+        .btn-complete { background: #6b9080; color: white; }
+        .btn-view     { background: var(--rose-light); color: var(--rose-dark); }
+        .btn-claim    { background: var(--amber); color: white; }
+
+        /* ── HISTORY TABLE ── */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .history-table th {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 2px solid #f0e5e0;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .history-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f7f0ec;
+            font-size: 0.9rem;
+        }
+        .history-table tr:last-child td { border-bottom: none; }
+        .history-table tr:hover td { background: var(--cream); }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+        .badge-completed { background: #d4ede7; color: #2a7a6a; }
+        .badge-pending   { background: #fdf0d8; color: #b07a1a; }
+        .badge-confirmed { background: #d4f0ec; color: #1a7a6e; }
+        .badge-progress  { background: #fce8e4; color: #c0442a; }
+
+        /* ── MODAL ── */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h3 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+        }
+        .close-modal {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--muted);
+        }
+        .detail-row {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0e5e0;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: var(--rose-dark);
+            margin-bottom: 0.3rem;
+        }
+        .detail-value {
+            color: var(--ink);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .main { padding: 1.5rem 1.2rem; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .user-info-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+        @media (max-width: 540px) {
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .topbar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+        
+        /* Message alerts */
+        .messages {
+            list-style: none;
+            margin-bottom: 1rem;
+            padding: 0;
+        }
+        .messages li {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+        }
+        .messages .success {
+            background-color: #d4ede7;
+            color: #2a7a6a;
+            border-left: 4px solid var(--teal);
+        }
+        .messages .error {
+            background-color: #fce8e4;
+            color: #c0442a;
+            border-left: 4px solid var(--rose);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="logo">é</div>
+        <a href="#" class="active" title="Dashboard" onclick="switchSection('dashboard')"><i class="fas fa-th-large"></i></a>
+        <a href="#" title="Schedule" onclick="switchSection('schedule')"><i class="fas fa-calendar-alt"></i></a>
+        <a href="#" title="History" onclick="switchSection('history')"><i class="fas fa-history"></i></a>
+        <a href="#" title="Settings"><i class="fas fa-cog"></i></a>
+        <a href="{% url 'login' %}" class="logout" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <!-- Messages -->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Good morning, <span>{{ user.full_name|truncatewords:1 }}</span> 👋</h1>
+                <p>Here's what's on your plate today.</p>
+            </div>
+            <div class="profile-pill">
+                <div class="profile-avatar">{{ user.full_name|first|upper }}</div>
+                <div class="profile-info">
+                    <div class="name">{{ user.full_name }}</div>
+                    <div class="role-badge">{{ user.role }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- USER INFO BANNER -->
+        <div class="user-info-card">
+            <div class="user-info-avatar">{{ user.full_name|first|upper }}</div>
+            <div class="user-info-details">
+                <h2>{{ user.full_name }}</h2>
+                <div class="role-tag">{{ user.role }}</div>
+                <div class="user-info-meta">
+                    <span><i class="fas fa-user"></i> @{{ user.username }}</span>
+                    <span><i class="fas fa-envelope"></i> {{ user.email }}</span>
+                    <span><i class="fas fa-phone"></i> {{ user.phone }}</span>
+                    <span><i class="fas fa-id-card"></i> NIDA: {{ user.nida }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS - DYNAMIC FROM DATABASE -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-number">{{ today_count|default:0 }}</div>
+                <div class="stat-label">Today's Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-spinner"></i></div>
+                <div class="stat-number">{{ in_progress_count|default:0 }}</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-number">{{ completed_today_count|default:0 }}</div>
+                <div class="stat-label">Completed Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-number">{{ pending_available|default:0 }}</div>
+                <div class="stat-label">Available to Claim</div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD SECTION (Shows assigned and preferred bookings) -->
+        <div id="dashboard-section">
+            <div class="dashboard-grid">
+                <!-- My Assigned Bookings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>My Assigned Bookings</h2>
+                        <small>{{ assigned_bookings|length }} appointment{{ assigned_bookings|length|pluralize }}</small>
+                    </div>
+                    {% for booking in assigned_bookings %}
+                    <div class="booking-item status-{{ booking.status|default:'pending'|cut:'_' }}">
+                        <div class="booking-details">
+                            <h3>{{ booking.client_name }}</h3>
+                            <div class="booking-meta">
+                                <span><i class="far fa-clock"></i> 
+                                    {% if booking.preferred_date %}
+                                        {{ booking.preferred_date|date:"M d, H:i" }}
+                                    {% else %}
+                                        Flexible timing
+                                    {% endif %}
+                                </span>
+                                <span><i class="fas fa-cut"></i> {{ booking.service_name|default:booking.service.name }}</span>
+                                {% if booking.notes %}
+                                <span><i class="fas fa-pen"></i> {{ booking.notes|truncatechars:30 }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            {% if booking.status == 'confirmed' %}
+                                <button class="btn btn-start" onclick="updateBookingStatus({{ booking.id }}, 'in_progress')">Start</button>
+                            {% elif booking.status == 'in_progress' %}
+                                <button class="btn btn-complete" onclick="updateBookingStatus({{ booking.id }}, 'completed')">Complete</button>
+                            {% endif %}
+                            <button class="btn btn-view" onclick="viewBookingDetails({{ booking.id }})">View</button>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div style="text-align: center; padding: 2rem; color: var(--muted);">
+                        <i class="fas fa-calendar-alt" style="font-size: 2rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;"></i>
+                        <p>No assigned bookings yet.</p>
+                        <small>Check the "Available to Claim" section below to pick up new bookings!</small>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Preferred by Clients -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Clients Requested You</h2>
+                        <small>{{ preferred_bookings|length }} requested you</small>
+                    </div>
+                    {% for booking in preferred_bookings %}
+                    <div class="booking-item status-pending">
+                        <div class="booking-details">
+                            <h3>{{ booking.client_name }}</h3>
+                            <div class="booking-meta">
+                                <span><i class="far fa-clock"></i> 
+                                    {% if booking.preferred_date %}
+                                        {{ booking.preferred_date|date:"M d, H:i" }}
+                                    {% else %}
+                                        Flexible
+                                    {% endif %}
+                                </span>
+                                <span><i class="fas fa-cut"></i> {{ booking.service_name|default:booking.service.name }}</span>
+                                <span><i class="fas fa-heart" style="color: var(--rose);"></i> Requested you</span>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-start" onclick="claimBooking({{ booking.id }})">Claim & Start</button>
+                            <button class="btn btn-view" onclick="viewBookingDetails({{ booking.id }})">View</button>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div style="text-align: center; padding: 2rem; color: var(--muted);">
+                        <i class="fas fa-heart" style="font-size: 2rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;"></i>
+                        <p>No clients have requested you yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- SCHEDULE SECTION (Pending bookings available to claim) -->
+        <div id="schedule-section" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Available Bookings to Claim</h2>
+                    <small>{{ pending_bookings|length }} booking{{ pending_bookings|length|pluralize }} waiting for worker</small>
+                </div>
+                {% for booking in pending_bookings %}
+                <div class="booking-item status-pending">
+                    <div class="booking-details">
+                        <h3>{{ booking.client_name }}</h3>
+                        <div class="booking-meta">
+                            <span><i class="fas fa-phone"></i> {{ booking.client_phone }}</span>
+                            <span><i class="fas fa-cut"></i> {{ booking.service_name|default:booking.service.name }}</span>
+                            {% if booking.preferred_date %}
+                            <span><i class="far fa-calendar"></i> {{ booking.preferred_date|date:"M d, H:i" }}</span>
+                            {% endif %}
+                            {% if booking.notes %}
+                            <span><i class="fas fa-pen"></i> {{ booking.notes|truncatechars:30 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn btn-claim" onclick="claimBooking({{ booking.id }})">Claim Booking</button>
+                        <button class="btn btn-view" onclick="viewBookingDetails({{ booking.id }})">View</button>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="text-align: center; padding: 3rem; color: var(--muted);">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.5;"></i>
+                    <p>No pending bookings available right now.</p>
+                    <small>Check back later or take a break!</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- HISTORY SECTION (Completed bookings) -->
+        <div id="history-section" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h2>My Completed Jobs</h2>
+                    <small>Last 30 days</small>
+                </div>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Client</th>
+                            <th>Service</th>
+                            <th>Notes</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            {% for booking in completed_history %}
+                            <tr>
+                                <td>{{ booking.updated_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <strong>{{ booking.client_name }}</strong><br>
+                                    <small style="color: var(--muted);">{{ booking.client_phone }}</small>
+                                </td>
+                                <td>{{ booking.service_name|default:booking.service.name }}</td>
+                                <td>{{ booking.notes|truncatechars:40 }}</td>
+                                <td><span class="badge badge-completed">Completed</span></td>
+                                <td><button class="btn btn-view" onclick="viewBookingDetails({{ booking.id }})" style="padding:0.3rem 0.9rem">View</button></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 3rem;">
+                                    <i class="fas fa-history" style="font-size: 2rem; margin-bottom: 0.5rem; display: block; opacity: 0.5;"></i>
+                                    <p>No completed jobs yet.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL FOR BOOKING DETAILS -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="bookingDetailsContent">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Section switching
+        function switchSection(section) {
+            document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('schedule-section').style.display = 'none';
+            document.getElementById('history-section').style.display = 'none';
+            
+            if (section === 'dashboard') {
+                document.getElementById('dashboard-section').style.display = 'block';
+            } else if (section === 'schedule') {
+                document.getElementById('schedule-section').style.display = 'block';
+            } else if (section === 'history') {
+                document.getElementById('history-section').style.display = 'block';
+            }
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            event.target.closest('a').classList.add('active');
+        }
+        
+        // Update booking status (Start or Complete)
+        function updateBookingStatus(bookingId, status) {
+            if (confirm(`Are you sure you want to mark this booking as ${status.replace('_', ' ')}?`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/update-booking/${bookingId}/`;
+                
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = 'csrfmiddlewaretoken';
+                csrfToken.value = '{{ csrf_token }}';
+                form.appendChild(csrfToken);
+                
+                const statusInput = document.createElement('input');
+                statusInput.type = 'hidden';
+                statusInput.name = 'status';
+                statusInput.value = status;
+                form.appendChild(statusInput);
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+        
+        // Claim a booking (assign to current worker and mark as in_progress)
+        function claimBooking(bookingId) {
+            if (confirm('Claim this booking? It will be assigned to you and marked as in progress.')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/update-booking/${bookingId}/`;
+                
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = 'csrfmiddlewaretoken';
+                csrfToken.value = '{{ csrf_token }}';
+                form.appendChild(csrfToken);
+                
+                const statusInput = document.createElement('input');
+                statusInput.type = 'hidden';
+                statusInput.name = 'status';
+                statusInput.value = 'in_progress';
+                form.appendChild(statusInput);
+                
+                const workerInput = document.createElement('input');
+                workerInput.type = 'hidden';
+                workerInput.name = 'assign_worker';
+                workerInput.value = '{{ user.id }}';
+                form.appendChild(workerInput);
+                
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+        
+        // View booking details
+        function viewBookingDetails(bookingId) {
+            // Fetch booking details via AJAX or show modal with info
+            // For now, we'll redirect to a detail page or show alert
+            window.location.href = `/booking-details/${bookingId}/`;
+        }
+        
+        function closeModal() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

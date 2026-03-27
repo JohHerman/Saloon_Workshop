@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>éclat · women's salon workshop</title>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..600&family=Playfair+Display:ital,wght@0,400..700;1,400&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Add AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #fff9fc;
+            font-family: "Quicksand", "Inter", sans-serif;
+            color: #4a3b4f;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #8b5f7c;
+        }
+        
+        h1 { font-size: clamp(2.4rem, 8vw, 4.2rem); line-height: 1.1; }
+        h2 { font-size: clamp(2rem, 6vw, 2.8rem); margin-bottom: 0.75rem; position: relative; display: inline-block; }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #f9b8d4, #d9b0d1);
+            border-radius: 3px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .text-center { text-align: center; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #ffe4f0;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d9b0d1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c48ab8;
+        }
+        
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #f9b8d4;
+            padding: 0.9rem 2.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #b380aa;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 4px 10px rgba(249, 184, 212, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(249, 184, 212, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover:before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            background-color: #f9b8d4;
+            color: #ffffff;
+            border-color: #f9b8d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(249, 184, 212, 0.4);
+        }
+        
+        .btn--primary {
+            background: #d9b0d1;
+            border-color: #d9b0d1;
+            color: white;
+        }
+        
+        .btn--primary:hover {
+            background: #c48ab8;
+            border-color: #c48ab8;
+        }
+        
+        /* NAVIGATION */
+        .navbar {
+            padding: 1.4rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1;
+            color: #c48ab8;
+            text-shadow: 2px 2px 0 #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo span {
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: #f9b8d4;
+            margin-left: 6px;
+        }
+        
+        .menu-icon {
+            display: none;
+            font-size: 1.8rem;
+            color: #c48ab8;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-icon:hover {
+            transform: rotate(90deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #8b5f7c;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #f9b8d4;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #f9b8d4;
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(249,184,212,0.1) 0%, rgba(249,184,212,0) 70%);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-50px, 50px) rotate(180deg); }
+        }
+        
+        .hero-grid {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            flex: 1 1 380px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #a67c95;
+            margin: 1.8rem 0 2.2rem;
+            max-width: 520px;
+            font-weight: 400;
+            line-height: 1.8;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .hero-image {
+            flex: 1 1 380px;
+            border-radius: 300px 300px 40px 40px;
+            background: linear-gradient(145deg, #ffe4f0, #ffffff);
+            padding: 1.5rem 1.5rem 0;
+            box-shadow: 0 30px 40px -25px rgba(201, 139, 176, 0.4);
+            animation: fadeInRight 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-image:before {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .img-placeholder {
+            background: linear-gradient(135deg, #f9b8d4 0%, #eac4e5 100%);
+            border-radius: 280px 280px 36px 36px;
+            min-height: 300px;
+            width: 100%;
+            aspect-ratio: 1 / 1.1;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .img-placeholder:after {
+            content: '🌸';
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+            animation: sway 3s infinite ease-in-out;
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        /* SECTIONS */
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .section-light {
+            background: linear-gradient(135deg, #fff1f9 0%, #fff9fc 100%);
+            position: relative;
+        }
+        
+        .section-light:before {
+            content: '✧';
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            font-size: 2rem;
+            color: rgba(249,184,212,0.2);
+            animation: float 6s infinite;
+        }
+        
+        .section-subhead {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #b68ba6;
+            max-width: 580px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        /* WORKSHOP GRID */
+        .workshop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .workshop-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2.2rem 1.8rem 2rem;
+            box-shadow: 0 15px 30px -12px rgba(201, 139, 176, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid #ffe4f0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .workshop-card:before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            transition: all 0.5s ease;
+            z-index: 0;
+            opacity: 0;
+        }
+        
+        .workshop-card:hover:before {
+            top: 0;
+            opacity: 0.05;
+        }
+        
+        .workshop-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 40px -12px #d9b0d1;
+            border-color: #f9b8d4;
+        }
+        
+        .workshop-icon {
+            font-size: 2.6rem;
+            color: #d9b0d1;
+            margin-bottom: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .workshop-card:hover .workshop-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: #c48ab8;
+        }
+        
+        .workshop-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+            color: #b380aa;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .workshop-card p {
+            color: #a67c95;
+            font-size: 0.98rem;
+            margin-bottom: 1.8rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .badge {
+            background: #ffe4f0;
+            color: #b380aa;
+            border-radius: 50px;
+            padding: 0.3rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .workshop-card:hover .badge {
+            background: #f9b8d4;
+            color: white;
+        }
+        
+        /* ABOUT SECTION */
+        .about-grid {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .about-text {
+            flex: 1 1 300px;
+        }
+        
+        .about-text h2 {
+            font-size: 2.8rem;
+            color: #8b5f7c;
+        }
+        
+        .about-text h2:after {
+            left: 0;
+            transform: translateX(0);
+            width: 80px;
+        }
+        
+        .about-highlight {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 24px;
+            flex: 1 1 280px;
+            border-left: 8px solid #f9b8d4;
+            box-shadow: 0 10px 25px rgba(249, 184, 212, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-highlight:before {
+            content: '“';
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            font-family: serif;
+        }
+        
+        .about-highlight:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 35px rgba(249, 184, 212, 0.25);
+        }
+        
+        .about-highlight i {
+            color: #d9b0d1;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* INSTRUCTORS / WORKERS SECTION */
+        .instructor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+        
+        .instructor-card {
+            background: white;
+            border-radius: 120px 120px 40px 40px;
+            padding: 1.8rem 1rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 6px 18px #fad4e6;
+            border: 2px solid #ffe4f0;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .instructor-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        
+        .instructor-card:hover:before {
+            opacity: 0.05;
+        }
+        
+        .instructor-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 30px rgba(201, 139, 176, 0.3);
+            border-color: #f9b8d4;
+        }
+        
+        .instructor-img {
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 300;
+            border: 4px solid #ffe4f0;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            animation: gentlePulse 2s infinite;
+        }
+        
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        .instructor-card:hover .instructor-img {
+            transform: rotate(360deg) scale(1.05);
+            border-color: #f9b8d4;
+        }
+        
+        .instructor-card h3 {
+            margin-bottom: 0.3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instructor-role {
+            color: #f9b8d4;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instructor-bio {
+            color: #a67c95;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instructor-experience {
+            display: inline-block;
+            background: #ffe4f0;
+            color: #b380aa;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Empty State for Workers */
+        .empty-workers {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 32px;
+            border: 2px solid #ffe4f0;
+        }
+        
+        .empty-workers i {
+            font-size: 3rem;
+            color: #f9b8d4;
+            margin-bottom: 1rem;
+        }
+        
+        /* SCHEDULE */
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            margin-bottom: 1rem;
+            border: 2px solid #ffe4f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .schedule-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(249,184,212,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .schedule-item:hover:before {
+            left: 100%;
+        }
+        
+        .schedule-item:hover {
+            border-color: #f9b8d4;
+            background: white;
+            transform: translateX(10px);
+        }
+        
+        .schedule-time {
+            font-weight: 600;
+            background: #d9b0d1;
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .schedule-item:hover .schedule-time {
+            background: #c48ab8;
+            transform: scale(1.05);
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, #fad4e6 0%, #ffe4f0 100%);
+            color: #5d4b5a;
+            padding: 3rem 0 2rem;
+            border-radius: 48px 48px 0 0;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer:before {
+            content: '✧';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            font-size: 8rem;
+            opacity: 0.1;
+            animation: float 8s infinite;
+        }
+        
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-col {
+            flex: 1 1 220px;
+        }
+        
+        .footer-col h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1.4rem;
+            font-family: "Playfair Display", serif;
+            color: #8b5f7c;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #f9b8d4;
+        }
+        
+        .footer-col p {
+            color: #b380aa;
+            line-height: 1.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.3rem;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .social-icons a {
+            color: #b380aa;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        .newsletter-input {
+            display: flex;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 50px;
+            padding: 0.4rem;
+            margin-top: 1rem;
+            border: 2px solid #f9b8d4;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input:focus-within {
+            box-shadow: 0 0 0 3px rgba(249,184,212,0.3);
+            transform: scale(1.02);
+        }
+        
+        .newsletter-input input {
+            flex: 1 1 140px;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.95rem;
+            background: transparent;
+            outline: none;
+            color: #8b5f7c;
+        }
+        
+        .newsletter-input input::placeholder {
+            color: #d9b0d1;
+        }
+        
+        .newsletter-input button {
+            background: #d9b0d1;
+            border: none;
+            color: white;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input button:hover {
+            background: #c48ab8;
+            transform: scale(1.05);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            border-top: 1px dashed #f9b8d4;
+            padding-top: 2rem;
+            color: #8b5f7c;
+        }
+        
+        /* Floating Heart */
+        .floating-heart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(201,139,176,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .floating-heart:hover {
+            transform: scale(1.1);
+            background: #f9b8d4;
+            color: white;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #d9b0d1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(201,139,176,0.3);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        /* RESPONSIVE */
+        @media screen and (max-width: 780px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.2rem;
+                padding: 1.8rem 0 1rem;
+            }
+            .nav-links.show { display: flex; }
+            .menu-icon { display: block; }
+            .hero-grid { flex-direction: column-reverse; }
+            .footer-inner { flex-direction: column; gap: 2rem; }
+            .instructor-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            .schedule-item {
+                flex-direction: column;
+                align-items: start;
+                border-radius: 36px;
+            }
+            .schedule-item span:last-child { margin-left: 0 !important; }
+            .about-grid { flex-direction: column; }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container { width: 94%; }
+            .btn { padding: 0.7rem 1.6rem; }
+            .workshop-card { padding: 1.8rem 1.2rem; }
+            .hero-image { border-radius: 200px 200px 30px 30px; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Elements -->
+    <div class="floating-heart" onclick="window.location.href='{% url 'bookings' %}'">
+        <i class="fas fa-heart"></i>
+    </div>
+    
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">éclat<span>studio</span></div>
+            <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
+            <div class="nav-links" id="navLinks">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'About' %}">About us</a>
+                <a href="{% url 'services' %}">Services</a>
+                <a href="{% url 'bookings' %}">Booking</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content" data-aos="fade-up">
+                <h1>where women<br>transform together</h1>
+                <p>intimate workshops for self‑care, styling & connection — in a soft, sunlit atelier.</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'services' %}" class="btn btn--primary">explore workshops</a>
+                    <a href="#about" class="btn">our story</a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left">
+                <div class="img-placeholder"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- workshops features -->
+    <section id="workshops" class="section">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">signature workshops</h2>
+            <div class="section-subhead text-center" data-aos="fade-up" data-aos-delay="100">crafted for women to glow, share & flourish.</div>
+            <div class="workshop-grid">
+                <div class="workshop-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="workshop-icon"><i class="fas fa-spa"></i></div>
+                    <h3>ritual & radiance</h3>
+                    <p>slow beauty, facial massage & mindful skincare with organic botanicals.</p>
+                    <span class="badge">every tue • 10am</span>
+                </div>
+                <div class="workshop-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="workshop-icon"><i class="fas fa-cut"></i></div>
+                    <h3>cut & confidence</h3>
+                    <p>find your signature cut & learn easy styling for real life.</p>
+                    <span class="badge">wed / thu • 2pm</span>
+                </div>
+                <div class="workshop-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="workshop-icon"><i class="fas fa-paint-brush"></i></div>
+                    <h3>colour whisper</h3>
+                    <p>personal colour analysis and soft tonal make-up.</p>
+                    <span class="badge">fri • 4pm</span>
+                </div>
+                <div class="workshop-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="workshop-icon"><i class="fas fa-hands"></i></div>
+                    <h3>hands & stories</h3>
+                    <p>nail art, hand massage and mindful connection.</p>
+                    <span class="badge">sat • 11am</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- about / story -->
+    <section id="about" class="section section-light">
+        <div class="container about-grid">
+            <div class="about-text" data-aos="fade-right">
+                <h2>born around a table,<br>raised by women.</h2>
+                <p>éclat began in a small living room — a few friends, coffee, and the desire to reclaim time for ourselves. today it's a warm workshop space where stylists, artists and soulful women gather to learn, unlearn and connect.</p>
+                <p style="margin-top: 1.2rem;">no judgment, only curiosity.</p>
+            </div>
+            <div class="about-highlight" data-aos="fade-left" data-aos-delay="100">
+                <i class="fas fa-quote-right"></i>
+                <p style="font-size: 1.4rem; font-family: 'Playfair Display'; line-height: 1.3;">"the most beautiful thing you can wear is your own energy — we just help you polish it."</p>
+                <p style="margin-top: 1rem;">— elara, founder</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE MAGICIANS BEHIND THE CHAIR - Dynamic Workers Section -->
+    <section id="instructors" class="section">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">the magicians behind the chair</h2>
+            <div class="section-subhead text-center" data-aos="fade-up" data-aos-delay="100">meet our talented artists & healers who bring magic to every visit</div>
+            
+            {% if workers %}
+            <div class="instructor-grid">
+                {% for worker in workers %}
+                <div class="instructor-card" data-aos="zoom-in" data-aos-delay="{{ forloop.counter|add:1|stringformat:'d' }}00" data-worker-id="{{ worker.id }}">
+                    <div class="instructor-img">{{ worker.full_name|first|upper }}</div>
+                    <h3>{{ worker.full_name }}</h3>
+                    <div class="instructor-role">
+                        {% if worker.specialization %}
+                            {{ worker.specialization }}
+                        {% else %}
+                            Beauty Specialist
+                        {% endif %}
+                    </div>
+                    <div class="instructor-bio">
+                        {% if worker.bio %}
+                            {{ worker.bio|truncatechars:70 }}
+                        {% else %}
+                            Passionate about helping women discover their inner glow through personalized care and attention.
+                        {% endif %}
+                    </div>
+                    <div class="instructor-experience">
+                        <i class="fas fa-star" style="font-size: 0.6rem;"></i> 
+                        {% if worker.experience_years %}
+                            {{ worker.experience_years }} years experience
+                        {% else %}
+                            Expert in her craft
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-workers" data-aos="zoom-in">
+                <i class="fas fa-magic"></i>
+                <p>Our magical team is being assembled. Check back soon to meet our talented artists!</p>
+                <a href="{% url 'services' %}" class="btn" style="margin-top: 1rem;">Explore Our Services</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- schedule preview -->
+    <section id="schedule" class="section section-light">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">upcoming days</h2>
+            <div class="section-subhead text-center" data-aos="fade-up" data-aos-delay="100">drop in, or join a full circle.</div>
+            <div style="max-width: 800px; margin: 2rem auto 0;">
+                <div class="schedule-item" data-aos="fade-right" data-aos-delay="200">
+                    <span class="schedule-time">tue 9:30</span>
+                    <span><i class="fas fa-sun" style="margin-right: 8px; color: #f9b8d4;"></i>morning ritual (face yoga & mask)</span>
+                    <span style="margin-left: auto; color: #b380aa;">3 spots left</span>
+                </div>
+                <div class="schedule-item" data-aos="fade-right" data-aos-delay="300">
+                    <span class="schedule-time">wed 14:00</span>
+                    <span><i class="fas fa-scissors" style="margin-right: 8px; color: #f9b8d4;"></i>cut & confidence</span>
+                    <span style="margin-left: auto; color: #b380aa;">2 spots</span>
+                </div>
+                <div class="schedule-item" data-aos="fade-right" data-aos-delay="400">
+                    <span class="schedule-time">thu 17:30</span>
+                    <span><i class="fas fa-wine-glass-alt" style="margin-right: 8px; color: #f9b8d4;"></i>evening colour & wine</span>
+                    <span style="margin-left: auto; color: #b380aa;">available</span>
+                </div>
+                <div class="schedule-item" data-aos="fade-right" data-aos-delay="500">
+                    <span class="schedule-time">sat 10:00</span>
+                    <span><i class="fas fa-leaf" style="margin-right: 8px; color: #f9b8d4;"></i>hands & stories (nail art)</span>
+                    <span style="margin-left: auto; color: #b380aa;">5 spots</span>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 2.5rem;">
+                <a href="#" class="btn">full calendar →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer / contact + newsletter -->
+    <footer id="contact" class="footer">
+        <div class="container footer-inner">
+            <div class="footer-col" data-aos="fade-up">
+                <h4>éclat atelier</h4>
+                <p>22 rue des Lilas, 75006 Paris — a hidden courtyard full of light.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h4>whispers</h4>
+                <p>get first dibs on new workshops & slow moments.</p>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="your email" aria-label="Newsletter">
+                    <button type="submit">send</button>
+                </div>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h4>info</h4>
+                <p>hello@eclat-studio.com<br>+33 1 43 76 89 42</p>
+                <p style="margin-top: 0.8rem;">tue – sat · 9am – 7pm</p>
+            </div>
+        </div>
+        <div class="container copy">
+            <p>© éclat salon workshop · crafted with love · all rights reserved</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animation
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('show');
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.querySelector('.back-to-top');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('show');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('show');
+                }
+            });
+        });
+        
+        // Back to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Newsletter form submission
+        document.querySelector('.newsletter-input button')?.addEventListener('click', function() {
+            const email = document.querySelector('.newsletter-input input').value;
+            if (email) {
+                alert('Thank you for subscribing! ✨ You\'ll hear from us soon.');
+                document.querySelector('.newsletter-input input').value = '';
+            } else {
+                alert('Please enter your email address 💌');
+            }
+        });
+        
+        // Worker card click functionality
+        document.querySelectorAll('.instructor-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const workerName = this.querySelector('h3').innerText;
+                const workerRole = this.querySelector('.instructor-role').innerText;
+                alert(`✨ ${workerName}\n\n${workerRole}\n\nWould you like to book an appointment with ${workerName}? Visit our booking page to schedule! 🌸`);
+            });
+        });
+        
+        // Schedule item click functionality
+        document.querySelectorAll('.schedule-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const time = this.querySelector('.schedule-time').innerText;
+                alert(`Booking for ${time} - Please visit our booking page to confirm your spot! 🌸`);
+            });
+        });
+        
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const scrolled = window.pageYOffset;
+                hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+            }
+        });
+        
+        // Add confetti effect when clicking floating heart
+        document.querySelector('.floating-heart')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            for(let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerHTML = ['🌸', '✨', '💕', '🎀', '💖'][Math.floor(Math.random() * 5)];
+                confetti.style.position = 'fixed';
+                confetti.style.left = e.clientX + 'px';
+                confetti.style.top = e.clientY + 'px';
+                confetti.style.fontSize = '20px';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                confetti.style.animation = 'floatConfetti 1s ease-out forwards';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 1000);
+            }
+        });
+        
+        // Add confetti animation style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatConfetti {
+                0% {
+                    transform: translate(0, 0) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(${Math.random() * 200 - 100}px, -200px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

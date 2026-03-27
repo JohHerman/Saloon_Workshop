@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>éclat · about us</title>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@0,400..700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #fff9fc;
+            font-family: "Quicksand", "Inter", sans-serif;
+            color: #4a3b4f;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: "Playfair Display", serif;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #8b5f7c;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .text-center { text-align: center; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #ffe4f0;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #d9b0d1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c48ab8;
+        }
+        
+        /* NAVIGATION - Enhanced */
+        .navbar {
+            padding: 1.4rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #c48ab8;
+            text-shadow: 2px 2px 0 #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo span {
+            font-weight: 300;
+            font-size: 1rem;
+            color: #f9b8d4;
+            margin-left: 6px;
+        }
+        
+        .menu-icon {
+            display: none;
+            font-size: 1.8rem;
+            color: #c48ab8;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-icon:hover {
+            transform: rotate(90deg);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #8b5f7c;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #f9b8d4;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #f9b8d4;
+        }
+        
+        /* PAGE HEADER - Enhanced */
+        .page-header {
+            background: linear-gradient(145deg, #ffe4f0, #fff9fc);
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header:before {
+            content: '✨';
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .page-header:after {
+            content: '🌸';
+            position: absolute;
+            bottom: 20%;
+            right: 10%;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 6s infinite ease-in-out reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .page-header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: #b380aa;
+            animation: fadeInDown 1s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section-subhead {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #b68ba6;
+            max-width: 580px;
+            margin: 1rem auto 0;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .section-light {
+            background: linear-gradient(135deg, #fff1f9 0%, #fff9fc 100%);
+            position: relative;
+        }
+        
+        .section-light:before {
+            content: '✧';
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            font-size: 2rem;
+            color: rgba(249,184,212,0.2);
+            animation: float 6s infinite;
+        }
+        
+        /* ABOUT GRID - Enhanced */
+        .about-grid {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .about-text {
+            flex: 1 1 300px;
+        }
+        
+        .about-text h2 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #8b5f7c;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .about-text h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #f9b8d4, #d9b0d1);
+            border-radius: 3px;
+        }
+        
+        .about-text p {
+            color: #a67c95;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .about-image {
+            flex: 1 1 300px;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 30px 35px -20px rgba(201, 139, 176, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 35px 45px -20px rgba(201, 139, 176, 0.4);
+        }
+        
+        .img-placeholder {
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .img-placeholder:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(50%, 50%) rotate(360deg); }
+        }
+        
+        .img-placeholder i {
+            animation: pulse 2s infinite;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* STORY BLOCK - Enhanced */
+        .story-block {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 60px;
+            box-shadow: 0 20px 30px rgba(249, 184, 212, 0.2);
+            border: 2px solid #ffe4f0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .story-block:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(249,184,212,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .story-block:hover:before {
+            left: 100%;
+        }
+        
+        .story-block:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 40px rgba(249, 184, 212, 0.3);
+            border-color: #f9b8d4;
+        }
+        
+        .story-block i {
+            color: #f9b8d4;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .story-block p {
+            font-family: "Playfair Display", serif;
+            color: #8b5f7c;
+            font-size: 1.6rem;
+            line-height: 1.4;
+        }
+        
+        .signature {
+            font-family: "Playfair Display", serif;
+            font-size: 2rem;
+            margin-top: 2rem;
+            color: #c48ab8;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .signature:before,
+        .signature:after {
+            content: '✧';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: #f9b8d4;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .signature:before {
+            left: -20px;
+        }
+        
+        .signature:after {
+            right: -20px;
+        }
+        
+        .story-block:hover .signature:before,
+        .story-block:hover .signature:after {
+            opacity: 1;
+        }
+        
+        /* VALUES SECTION - Enhanced */
+        .values-row {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .value-item {
+            flex: 1 1 200px;
+            background: white;
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(201, 139, 176, 0.1);
+            border: 2px solid #ffe4f0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .value-item:before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            transition: all 0.5s ease;
+            z-index: 0;
+            opacity: 0;
+        }
+        
+        .value-item:hover:before {
+            top: 0;
+            opacity: 0.05;
+        }
+        
+        .value-item:hover {
+            border-color: #f9b8d4;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 30px rgba(201, 139, 176, 0.2);
+        }
+        
+        .value-item i {
+            font-size: 2.6rem;
+            color: #d9b0d1;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .value-item:hover i {
+            transform: scale(1.1) rotate(5deg);
+            color: #c48ab8;
+        }
+        
+        .value-item h3 {
+            color: #b380aa;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .value-item p {
+            color: #a67c95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* MILESTONE TIMELINE - New Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto 0;
+            padding: 2rem 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #f9b8d4, #d9b0d1);
+        }
+        
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 24px;
+            border: 2px solid #ffe4f0;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            border-color: #f9b8d4;
+            box-shadow: 0 10px 25px rgba(249,184,212,0.2);
+        }
+        
+        .timeline-year {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #c48ab8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-text {
+            color: #a67c95;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: #f9b8d4;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 3px #f9b8d4;
+        }
+        
+        /* TEAM SECTION - New */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid #ffe4f0;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: #f9b8d4;
+            box-shadow: 0 20px 30px rgba(201,139,176,0.15);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f9b8d4, #d9b0d1);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover .team-avatar {
+            transform: rotate(360deg) scale(1.05);
+        }
+        
+        .team-card h3 {
+            margin-bottom: 0.3rem;
+        }
+        
+        .team-role {
+            color: #f9b8d4;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .team-bio {
+            color: #a67c95;
+            font-size: 0.9rem;
+        }
+        
+        /* FOOTER - Enhanced */
+        .footer {
+            background: linear-gradient(135deg, #fad4e6 0%, #ffe4f0 100%);
+            color: #5d4b5a;
+            padding: 3rem 0 2rem;
+            border-radius: 48px 48px 0 0;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer:before {
+            content: '✧';
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            font-size: 8rem;
+            opacity: 0.1;
+            animation: float 8s infinite;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-col {
+            flex: 1 1 200px;
+        }
+        
+        .footer-col h4 {
+            color: #8b5f7c;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #f9b8d4;
+        }
+        
+        .footer-col p {
+            color: #b380aa;
+            line-height: 1.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.3rem;
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #b380aa;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        .copy {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px dashed #f9b8d4;
+            color: #8b5f7c;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #d9b0d1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(201,139,176,0.3);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: #c48ab8;
+            transform: translateY(-5px);
+        }
+        
+        /* RESPONSIVE */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .nav-links.show { display: flex; }
+            .menu-icon { display: block; }
+            .about-grid { flex-direction: column; }
+            .values-row { flex-direction: column; }
+            .timeline:before { left: 20px; }
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: column;
+                margin-left: 40px;
+            }
+            .timeline-content { width: 100%; }
+            .timeline-dot { left: 20px; }
+            .footer-inner { flex-direction: column; gap: 2rem; }
+            .story-block p { font-size: 1.2rem; }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container { width: 94%; }
+            .story-block { padding: 2rem; }
+            .signature { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="logo">éclat<span>studio</span></div>
+            <div class="menu-icon" id="menuToggle"><i class="fas fa-bars"></i></div>
+            <div class="nav-links" id="navLinks">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'About' %}">About us</a>
+                <a href="{% url 'services' %}">Services</a>
+                <a href="{% url 'bookings' %}">Booking</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 data-aos="fade-down">our story</h1>
+            <p class="section-subhead" data-aos="fade-up" data-aos-delay="100">a sanctuary for women, by women</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container about-grid">
+            <div class="about-text" data-aos="fade-right">
+                <h2>born around a table,<br>raised by women.</h2>
+                <p>éclat began in 2018 in a small living room — a few friends, coffee, and the desire to reclaim time for ourselves. What started as sunday ritual gatherings became a warm workshop space where stylists, artists and soulful women gather to learn, unlearn and connect.</p>
+                <p>Today, our atelier is a hidden courtyard full of light. We believe that beauty is a ritual, not a rush. From our hands to your hair, skin, and soul — everything is made with intention.</p>
+                <p>Every product we use is carefully selected, every technique we teach is passed down with love. We're not just a salon; we're a community of women supporting women.</p>
+            </div>
+            <div class="about-image" data-aos="fade-left" data-aos-delay="100">
+                <div class="img-placeholder">
+                    <i class="fas fa-venus"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Block -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="story-block" data-aos="zoom-in">
+                <i class="fas fa-quote-right"></i>
+                <p>"the most beautiful thing you can wear is your own energy — we just help you polish it."</p>
+                <p class="signature">— elara, founder</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">our values</h2>
+            <div class="values-row">
+                <div class="value-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>gentle</h3>
+                    <p>slow, mindful approach to beauty</p>
+                </div>
+                <div class="value-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-seedling"></i>
+                    <h3>organic</h3>
+                    <p>clean ingredients, ethically sourced</p>
+                </div>
+                <div class="value-item" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h3>sisterhood</h3>
+                    <p>a safe, welcoming space for all</p>
+                </div>
+                <div class="value-item" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-moon"></i>
+                    <h3>ritual</h3>
+                    <p>transforming routines into ceremonies</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section - New -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">our journey</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2018</div>
+                        <div class="timeline-text">éclat begins as a small gathering of friends in a cozy living room, sharing beauty rituals and coffee.</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left" data-aos-delay="100">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-text">First workshop space opens in the heart of Paris. Word spreads, community grows.</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item" data-aos="fade-right" data-aos-delay="200">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2022</div>
+                        <div class="timeline-text">Expansion to a sunlit atelier with a garden. Launch of signature rituals and organic product line.</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left" data-aos-delay="300">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-text">éclat becomes a full wellness sanctuary, serving hundreds of women with love and intention.</div>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section - New -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center" data-aos="fade-up">the heart behind éclat</h2>
+            <div class="team-grid">
+                <div class="team-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="team-avatar">E</div>
+                    <h3>Elara Rose</h3>
+                    <div class="team-role">Founder & Face Yoga Expert</div>
+                    <p class="team-bio">Elara started éclat from her living room, believing that beauty rituals should be moments of connection and self-discovery.</p>
+                </div>
+                <div class="team-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="team-avatar">M</div>
+                    <h3>Maya Chen</h3>
+                    <div class="team-role">Color Specialist & Energy Healer</div>
+                    <p class="team-bio">Maya brings harmony through color, helping clients find shades that reflect their inner light.</p>
+                </div>
+                <div class="team-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="team-avatar">S</div>
+                    <h3>Soline Dubois</h3>
+                    <div class="team-role">Master Stylist</div>
+                    <p class="team-bio">With 15 years of experience, Soline creates cuts that celebrate each woman's unique beauty.</p>
+                </div>
+                <div class="team-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="team-avatar">J</div>
+                    <h3>Juno Park</h3>
+                    <div class="team-role">Nail Artist & Storyteller</div>
+                    <p class="team-bio">Juno believes hands tell stories, and her nail art celebrates those narratives with creativity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-col" data-aos="fade-up">
+                <h4>éclat atelier</h4>
+                <p>22 rue des Lilas, 75006 Paris<br>a hidden courtyard full of light</p>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h4>contact</h4>
+                <p>hello@eclat-studio.com<br>+33 1 43 76 89 42</p>
+                <p style="margin-top: 0.5rem;">tue – sat · 9am – 7pm</p>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h4>follow</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="container copy">
+            <p>© éclat salon workshop · crafted with love · all rights reserved</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('show');
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.querySelector('.back-to-top');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('show');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
+                    }
+                }
+            });
+        });
+        
+        // Back to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Add click effect to timeline items
+        document.querySelectorAll('.timeline-content').forEach(item => {
+            item.addEventListener('click', function() {
+                const year = this.querySelector('.timeline-year').innerText;
+                alert(`✨ ${year} marked a beautiful chapter in éclat's journey. Thank you for being part of our story! 🌸`);
+            });
+        });
+        
+        // Add hover effect to team cards
+        document.querySelectorAll('.team-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const name = this.querySelector('h3').innerText;
+                const role = this.querySelector('.team-role').innerText;
+                alert(`💕 ${name} - ${role}\n\nThey would love to meet you at the studio! Book a consultation to work with them.`);
+            });
+        });
+        
+        // Parallax effect on header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.page-header');
+            if (header) {
+                const scrolled = window.pageYOffset;
+                header.style.backgroundPositionY = scrolled * 0.5 + 'px';
+            }
+        });
+    </script>
+</body>
+</html>

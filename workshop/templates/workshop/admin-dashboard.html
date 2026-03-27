@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - éclat Salon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Your existing CSS styles remain exactly the same */
+        :root {
+            --rose:        #b07a6e;
+            --rose-light:  #dfc8c2;
+            --rose-dark:   #7a4f45;
+            --cream:       #f7f2ee;
+            --ink:         #2a201e;
+            --muted:       #8a716c;
+            --teal:        #2a9d8f;
+            --amber:       #e9a84c;
+            --card-shadow: 0 8px 32px rgba(42,32,30,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--cream);
+            font-family: "DM Sans", sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 72px;
+            height: 100vh;
+            background: var(--rose-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 0;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+        .sidebar .logo {
+            font-family: "Cormorant Garamond", serif;
+            color: white;
+            font-size: 1.6rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .sidebar a {
+            width: 46px; height: 46px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--rose-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .sidebar .logout { margin-top: auto; color: #f4a2a2; }
+        .sidebar .logout:hover {
+            background: rgba(255,100,100,0.15);
+            color: #ff7b7b;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            margin-left: 72px;
+            padding: 2rem 2.5rem;
+            max-width: 1400px;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+        .topbar-left h1 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+        .topbar-left h1 span { color: var(--rose); font-style: italic; }
+        .topbar-left p { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
+
+        .profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            background: white;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem 0.5rem 0.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--rose-light);
+        }
+        .profile-avatar {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a3b35, #2a201e);
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.3rem;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .profile-info .name { font-weight: 500; font-size: 0.95rem; line-height: 1.2; }
+        .profile-info .role-badge {
+            display: inline-block;
+            background: #4a3b35;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            text-transform: capitalize;
+            margin-top: 0.15rem;
+        }
+
+        /* ── ADMIN INFO BANNER ── */
+        .admin-info-card {
+            background: linear-gradient(135deg, #2a201e 0%, #4a3b35 100%);
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 12px 40px rgba(42,32,30,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .admin-info-card::after {
+            content: 'éclat';
+            position: absolute;
+            right: 2rem; bottom: -1rem;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 6rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.05);
+            pointer-events: none;
+        }
+        .admin-info-avatar {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.12);
+            border: 2px solid rgba(255,255,255,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .admin-info-details h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        .admin-info-details .role-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 0.2rem 0.9rem;
+            font-size: 0.8rem;
+            text-transform: capitalize;
+            margin-top: 0.4rem;
+        }
+        .admin-info-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .admin-info-meta span {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* ── STATS ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.4rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0e5e0;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 60px; height: 60px;
+            border-radius: 0 20px 0 60px;
+            opacity: 0.08;
+        }
+        .stat-card:nth-child(1)::before { background: var(--rose); }
+        .stat-card:nth-child(2)::before { background: var(--teal); }
+        .stat-card:nth-child(3)::before { background: var(--amber); }
+        .stat-card:nth-child(4)::before { background: #2a201e; }
+
+        .stat-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.95rem;
+            margin-bottom: 0.9rem;
+        }
+        .stat-card:nth-child(1) .stat-icon { background: #fce8e4; color: var(--rose); }
+        .stat-card:nth-child(2) .stat-icon { background: #d4f0ec; color: var(--teal); }
+        .stat-card:nth-child(3) .stat-icon { background: #fdf0d8; color: var(--amber); }
+        .stat-card:nth-child(4) .stat-icon { background: #e8e0dc; color: #2a201e; }
+
+        .stat-number {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--ink);
+        }
+        .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 50px;
+            padding: 0.4rem;
+            box-shadow: var(--card-shadow);
+            width: fit-content;
+        }
+        .tab {
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: background 0.2s, color 0.2s;
+        }
+        .tab.active { background: var(--rose-dark); color: white; }
+        .tab:hover:not(.active) { background: var(--cream); color: var(--ink); }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── CARDS ── */
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f0e5e0;
+            margin-bottom: 1.5rem;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.4rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0e5e0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .card-header h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .card-header small { color: var(--muted); font-size: 0.82rem; }
+
+        /* ── FILTER BAR ── */
+        .filter-bar { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .filter-input {
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            border: 1px solid var(--rose-light);
+            background: var(--cream);
+            font-family: "DM Sans", sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink);
+            outline: none;
+        }
+        .filter-input:focus { border-color: var(--rose); }
+
+        /* ── TABLE ── */
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 2px solid #f0e5e0;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f7f0ec;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--cream); }
+
+        /* ── USER CELL ── */
+        .user-cell { display: flex; align-items: center; gap: 0.7rem; }
+        .user-avatar-sm {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .uname { font-weight: 500; font-size: 0.9rem; }
+        .uemail { font-size: 0.78rem; color: var(--muted); }
+
+        /* ── BADGES ── */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+        .badge-pending   { background: #fdf0d8; color: #b07a1a; }
+        .badge-confirmed { background: #d4f0ec; color: #1a7a6e; }
+        .badge-progress  { background: #fce8e4; color: #c0442a; }
+        .badge-completed { background: #d4ede7; color: #2a7a6a; }
+        .badge-cancelled { background: #ffe4e0; color: #c0442a; }
+        .badge-worker    { background: var(--rose-light); color: var(--rose-dark); }
+        .badge-admin     { background: #2a201e; color: white; }
+        .badge-manager   { background: var(--rose-dark); color: white; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            padding: 0.45rem 1rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: "DM Sans", sans-serif;
+            transition: opacity 0.15s, transform 0.15s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-primary { background: var(--rose-dark); color: white; }
+        .btn-ghost   { background: var(--rose-light); color: var(--rose-dark); }
+        .btn-danger  { background: #f4dede; color: #c0442a; }
+        .btn-teal    { background: var(--teal); color: white; }
+
+        /* ── MODAL ── */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-header h3 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+        }
+        .close-modal {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--muted);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--rose-dark);
+        }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--rose-light);
+            border-radius: 12px;
+            font-family: "DM Sans", sans-serif;
+            background: var(--cream);
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        /* ── WORKER GRID ── */
+        .worker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+        }
+        .worker-card {
+            background: var(--cream);
+            border-radius: 20px;
+            padding: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #f0e5e0;
+            transition: transform 0.15s;
+        }
+        .worker-card:hover { transform: translateY(-2px); }
+        .worker-avatar {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+            display: flex; align-items: center; justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .worker-info h4 { font-size: 1rem; font-weight: 500; margin-bottom: 0.2rem; }
+        .worker-info p  { font-size: 0.82rem; color: var(--muted); }
+        .dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            margin-right: 0.4rem;
+        }
+        .dot-available { background: var(--teal); }
+        .dot-busy      { background: #e76f51; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; display: block; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .main { padding: 1.5rem 1.2rem; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .admin-info-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+        @media (max-width: 540px) {
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .topbar { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .tabs { flex-wrap: wrap; border-radius: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="logo">é</div>
+        <a class="active" title="Dashboard" onclick="switchTab('bookings', this)"><i class="fas fa-th-large"></i></a>
+        <a title="Users" onclick="switchTab('users', this)"><i class="fas fa-users"></i></a>
+        <a title="Workers" onclick="switchTab('workers', this)"><i class="fas fa-cut"></i></a>
+        <a title="History" onclick="switchTab('history', this)"><i class="fas fa-history"></i></a>
+        <a title="Settings"><i class="fas fa-cog"></i></a>
+        <a href="{% url 'login' %}" class="logout" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Welcome back, <span>{{ user.full_name|truncatewords:1 }}</span> 👑</h1>
+                <p>Full salon overview — manage bookings, workers & users.</p>
+            </div>
+            <div class="profile-pill">
+                <div class="profile-avatar">{{ user.full_name|first|upper }}</div>
+                <div class="profile-info">
+                    <div class="name">{{ user.full_name }}</div>
+                    <div class="role-badge">Admin</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN INFO BANNER -->
+        <div class="admin-info-card">
+            <div class="admin-info-avatar">{{ user.full_name|first|upper }}</div>
+            <div class="admin-info-details">
+                <h2>{{ user.full_name }}</h2>
+                <div class="role-tag">Administrator</div>
+                <div class="admin-info-meta">
+                    <span><i class="fas fa-user"></i> @{{ user.username }}</span>
+                    <span><i class="fas fa-envelope"></i> {{ user.email }}</span>
+                    <span><i class="fas fa-phone"></i> {{ user.phone }}</span>
+                    <span><i class="fas fa-id-card"></i> NIDA: {{ user.nida }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS - DYNAMIC FROM DATABASE -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-number">{{ pending_count|default:0 }}</div>
+                <div class="stat-label">Pending Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                <div class="stat-number">{{ workers|length }}</div>
+                <div class="stat-label">Active Workers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number">{{ users|length }}</div>
+                <div class="stat-label">Registered Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-number">{{ confirmed_count|default:0 }}</div>
+                <div class="stat-label">Confirmed Bookings</div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('bookings', this)">All Bookings</div>
+            <div class="tab" onclick="switchTab('users', this)">Registered Users</div>
+            <div class="tab" onclick="switchTab('workers', this)">Workers</div>
+            <div class="tab" onclick="switchTab('history', this)">Completed</div>
+        </div>
+
+        <!-- TAB: BOOKINGS - DYNAMIC FROM DATABASE -->
+        <div id="tab-bookings" class="tab-panel active">
+            <div class="card">
+                <div class="card-header">
+                    <h2>All Booking Requests</h2>
+                    <div class="filter-bar">
+                        <input type="text" id="searchBookings" class="filter-input" placeholder="🔍 Search client..." onkeyup="filterBookings()">
+                        <select id="statusFilter" class="filter-input" onchange="filterBookings()">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="bookingsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Client</th><th>Service</th>
+                                <th>Worker</th><th>Preferred Date</th><th>Status</th><th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr class="booking-row" data-status="{{ booking.status }}">
+                                <td style="color:var(--muted)">#B{{ booking.id }}</td>
+                                <td>
+                                    <strong>{{ booking.client_name }}</strong><br>
+                                    <small style="color:var(--muted)">{{ booking.client_phone }}</small>
+                                    {% if booking.client_email %}
+                                    <br><small style="color:var(--muted)">{{ booking.client_email }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>{{ booking.service_name|default:booking.service.name }}</td>
+                                <td>
+                                    {% if booking.assigned_worker %}
+                                        {{ booking.assigned_worker.full_name }}
+                                    {% elif booking.preferred_attendant %}
+                                        <span style="color:var(--muted)">Preferred: {{ booking.preferred_attendant.full_name }}</span>
+                                    {% else %}
+                                        <span style="color:var(--muted); font-style:italic">Not assigned</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if booking.preferred_date %}
+                                        {{ booking.preferred_date|date:"M d, H:i" }}
+                                    {% else %}
+                                        <span style="color:var(--muted)">Flexible</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if booking.status == 'pending' %}
+                                        <span class="badge badge-pending">Pending</span>
+                                    {% elif booking.status == 'confirmed' %}
+                                        <span class="badge badge-confirmed">Confirmed</span>
+                                    {% elif booking.status == 'completed' %}
+                                        <span class="badge badge-completed">Completed</span>
+                                    {% elif booking.status == 'cancelled' %}
+                                        <span class="badge badge-cancelled">Cancelled</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button class="btn btn-teal" onclick="openAssignModal({{ booking.id }}, '{{ booking.client_name }}')">Assign</button>
+                                    <button class="btn btn-ghost" onclick="viewBookingDetails({{ booking.id }})">View</button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 3rem;">
+                                    <div class="empty-state">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <p>No bookings yet. Clients will appear here when they make a booking.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: REGISTERED USERS - DYNAMIC FROM DATABASE -->
+        <div id="tab-users" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Registered Users</h2>
+                    <small>{{ users|length }} total account{{ users|length|pluralize }}</small>
+                </div>
+
+                {% if users %}
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User</th>
+                                <th>Username</th>
+                                <th>Phone</th>
+                                <th>NIDA</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in users %}
+                            <tr>
+                                <td style="color:var(--muted)">{{ forloop.counter }}</td>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-sm">{{ u.full_name|first|upper }}</div>
+                                        <div>
+                                            <div class="uname">{{ u.full_name }}</div>
+                                            <div class="uemail">{{ u.email }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@{{ u.username }}</td>
+                                <td>{{ u.phone }}</td>
+                                <td style="font-size:0.82rem; color:var(--muted)">{{ u.nida }}</td>
+                                <td>
+                                    {% if u.role == 'admin' %}
+                                        <span class="badge badge-admin">Admin</span>
+                                    {% elif u.role == 'manager' %}
+                                        <span class="badge badge-manager">Manager</span>
+                                    {% else %}
+                                        <span class="badge badge-worker">Worker</span>
+                                    {% endif %}
+                                </td>
+                                <td style="font-size:0.82rem; color:var(--muted)">{{ u.created_at|date:"d M Y" }}</td>
+                                <td>
+                                    <button class="btn btn-ghost">View</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-users"></i>
+                    <p>No users have registered yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- TAB: WORKERS - DYNAMIC FROM DATABASE -->
+        <div id="tab-workers" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Workers Management</h2>
+                    <button class="btn btn-primary" onclick="openAddWorkerModal()"><i class="fas fa-plus" style="margin-right:0.4rem"></i>Add Worker</button>
+                </div>
+                <div class="worker-grid">
+                    {% for worker in workers %}
+                    <div class="worker-card">
+                        <div class="worker-avatar">{{ worker.full_name|first|upper }}</div>
+                        <div class="worker-info">
+                            <h4>{{ worker.full_name }}</h4>
+                            <p><span class="dot dot-available"></span>Available</p>
+                            <p>{{ worker.email }}</p>
+                            <p>{{ worker.phone }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-users"></i>
+                        <p>No workers added yet. Click "Add Worker" to create worker accounts.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: HISTORY (COMPLETED BOOKINGS) -->
+        <div id="tab-history" class="tab-panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Recent Completed Jobs</h2>
+                    <button class="btn btn-ghost">
+                        <i class="fas fa-download" style="margin-right:0.4rem"></i>Download Report
+                    </button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th><th>Client</th><th>Service</th>
+                                <th>Worker</th><th>Notes</th><th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in completed_bookings %}
+                            <tr>
+                                <td>{{ booking.updated_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <strong>{{ booking.client_name }}</strong><br>
+                                    <small>{{ booking.client_phone }}</small>
+                                </td>
+                                <td>{{ booking.service_name|default:booking.service.name }}</td>
+                                <td>{{ booking.assigned_worker.full_name|default:"Not assigned" }}</td>
+                                <td>{{ booking.notes|truncatechars:50 }}</td>
+                                <td><span class="badge badge-completed">Completed</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 3rem;">
+                                    <div class="empty-state">
+                                        <i class="fas fa-history"></i>
+                                        <p>No completed bookings yet.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /main -->
+
+    <!-- MODAL FOR ASSIGNING WORKER -->
+    <div id="assignModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Assign Worker to Booking</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <form method="POST" action="{% url 'update-booking-status' 0 %}" id="assignForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Booking: <span id="bookingClientName"></span></label>
+                </div>
+                <div class="form-group">
+                    <label>Select Worker</label>
+                    <select name="assign_worker" required>
+                        <option value="">-- Select a worker --</option>
+                        {% for worker in workers %}
+                        <option value="{{ worker.id }}">{{ worker.full_name }} ({{ worker.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Update Status</label>
+                    <select name="status">
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Assign Worker</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(name, el) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + name).classList.add('active');
+            if (el) el.classList.add('active');
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+        }
+
+        // Filter bookings by client name and status
+        function filterBookings() {
+            const searchValue = document.getElementById('searchBookings')?.value.toLowerCase() || '';
+            const statusValue = document.getElementById('statusFilter')?.value || 'all';
+            const rows = document.querySelectorAll('#bookingsTable tbody tr');
+            
+            rows.forEach(row => {
+                const clientName = row.querySelector('td:nth-child(2) strong')?.innerText.toLowerCase() || '';
+                const status = row.getAttribute('data-status') || '';
+                
+                const matchesSearch = clientName.includes(searchValue);
+                const matchesStatus = statusValue === 'all' || status === statusValue;
+                
+                row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+            });
+        }
+
+        // Assign worker modal
+        let currentBookingId = null;
+        
+        function openAssignModal(bookingId, clientName) {
+            currentBookingId = bookingId;
+            document.getElementById('bookingClientName').innerText = clientName;
+            const form = document.getElementById('assignForm');
+            form.action = form.action.replace('/0', '/' + bookingId);
+            document.getElementById('assignModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('assignModal').style.display = 'none';
+        }
+        
+        function viewBookingDetails(bookingId) {
+            // You can implement a modal to show booking details
+            alert('View booking #' + bookingId + ' details - implement detailed view modal');
+        }
+        
+        function openAddWorkerModal() {
+            alert('Add worker functionality - implement registration form');
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('assignModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
