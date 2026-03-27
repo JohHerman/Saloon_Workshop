@@ -20,6 +20,7 @@ from workshop import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='root'),
     path('home', views.home, name='home'),
     path('About', views.about, name='About'),
     path('services', views.services, name='services'),
